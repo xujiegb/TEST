@@ -1,0 +1,118 @@
+{
+  "log": {
+    "access": "/Users/xujie/Downloads/xray_log/access.log", 
+    "error": "/Users/xujie/Downloads/xray_log/error.log", 
+    "loglevel": "warning"
+  },
+
+  "dns": {
+    "servers": [
+      {
+        "address": "1.1.1.1",
+        "domains": ["geosite:geolocation-!cn"]
+      },
+      {
+        "address": "223.5.5.5",
+        "domains": ["geosite:cn"],
+        "expectIPs": ["geoip:cn"]
+      },
+      {
+        "address": "114.114.114.114",
+        "domains": ["geosite:cn"]
+      },
+      "localhost"
+    ]
+  },
+
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "domain": ["geosite:category-ads-all"],
+        "outboundTag": "block"
+      },
+      {
+        "domain": ["geosite:cn"],
+        "outboundTag": "direct"
+      },
+      {
+        "domain": ["geosite:geolocation-!cn"],
+        "outboundTag": "proxy"
+      },
+      {
+        "ip": ["223.5.5.5"],
+        "outboundTag": "direct"
+      },
+      {
+        "ip": ["geoip:cn", "geoip:private"],
+        "outboundTag": "direct"
+      }
+    ]
+  },
+
+  "inbounds": [
+    {
+      "tag": "socks-in",
+      "protocol": "socks",
+      "listen": "127.0.0.1",
+      "port": 10800,
+      "settings": {
+        "udp": true
+      }
+    },
+    {
+  "port": 0,
+  "protocol": "tun",
+  "settings": {
+    "name": "xray0",
+    "MTU": 1500,
+    "user_level": 0
+    },
+    {
+      "tag": "http-in",
+      "protocol": "http",
+      "listen": "127.0.0.1",
+      "port": 10801
+    }
+  ],
+
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "182.237.2.41",
+            "port": 60841,
+            "users": [
+              {
+                "id": "b1c1fe7c-ae3e-4bed-83ca-5745788d0bdb",
+                "flow": "xtls-rprx-vision",
+                "encryption": "none",
+                "level": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "icloud.com",
+          "allowInsecure": false,
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ]
+}
