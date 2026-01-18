@@ -1,7 +1,7 @@
 {
   "log": {
-    "access": "/Users/xujie/Downloads/xray_log/access.log", 
-    "error": "/Users/xujie/Downloads/xray_log/error.log", 
+    "access": "/Users/xujie/Downloads/xray_log/access.log",
+    "error": "/Users/xujie/Downloads/xray_log/error.log",
     "loglevel": "warning"
   },
 
@@ -61,12 +61,13 @@
       }
     },
     {
-  "port": 0,
-  "protocol": "tun",
-  "settings": {
-    "name": "xray0",
-    "MTU": 1500,
-    "user_level": 0
+      "port": 0,
+      "protocol": "tun",
+      "settings": {
+        "name": "xray0",
+        "MTU": 1500,
+        "userLevel": 0
+      }
     },
     {
       "tag": "http-in",
