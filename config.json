@@ -5,9 +5,12 @@
     "loglevel": "warning"
   },
   "dns": {
+    "hosts": {
+      "geosite:category-ads-all": "127.0.0.1"
+    },
     "servers": [
       {
-        "address": "1.1.1.1",
+        "address": "fakedns",
         "domains": ["geosite:geolocation-!cn"]
       },
       {
@@ -15,10 +18,7 @@
         "domains": ["geosite:cn"],
         "expectIPs": ["geoip:cn"]
       },
-      {
-        "address": "114.114.114.114",
-        "domains": ["geosite:cn"]
-      },
+      "1.1.1.1",
       "localhost"
     ]
   },
@@ -29,6 +29,11 @@
         "type": "field",
         "ip": ["182.237.2.41"],
         "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "ip": ["198.18.0.0/15"],
+        "outboundTag": "proxy"
       },
       {
         "type": "field",
@@ -60,6 +65,10 @@
       "settings": {
         "name": "utun4",
         "MTU": 1500
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls", "quic", "fakedns"]
       }
     },
     {
@@ -70,12 +79,6 @@
       "settings": {
         "udp": true
       }
-    },
-    {
-      "tag": "http-in",
-      "protocol": "http",
-      "listen": "127.0.0.1",
-      "port": 10801
     }
   ],
   "outbounds": [
@@ -114,12 +117,20 @@
     {
       "tag": "direct",
       "protocol": "freedom",
-      "settings": {}
+      "settings": {
+        "domainStrategy": "UseIPv4"
+      }
     },
     {
       "tag": "block",
       "protocol": "blackhole",
       "settings": {}
+    }
+  ],
+  "fakedns": [
+    {
+      "ipPool": "198.18.0.0/15",
+      "poolSize": 65535
     }
   ]
 }
