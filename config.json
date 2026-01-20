@@ -35,7 +35,7 @@
         "type": "field",
         "port": 53,
         "network": "udp",
-        "outboundTag": "proxy" 
+        "outboundTag": "proxy"
       },
       {
         "type": "field",
@@ -66,7 +66,7 @@
       "protocol": "tun",
       "settings": {
         "name": "utun4",
-        "MTU": 1400
+        "MTU": 1280
       },
       "sniffing": {
         "enabled": true,
@@ -97,14 +97,17 @@
       },
       "streamSettings": {
         "network": "tcp",
-        "security": "tls",
-        "tlsSettings": {
+        "security": "reality",
+        "realitySettings": {
+          "show": false,
+          "fingerprint": "firefox",
           "serverName": "icloud.com",
-          "allowInsecure": false,
-          "fingerprint": "firefox"
+          "publicKey": "B-_jL4py0nenHatflbNcoAGNcwmlOfIJb-yxUSKEuwo",
+          "shortId": "d252,a1ed4f,a66e627e,ac,8060bf272b5a7f,fe06b7eefb,c4a6ac0b40d0,58589c5ab7efca96",
+          "spiderX": "/"
         },
         "sockopt": {
-          "interface": "en0"
+          "mark": 255
         }
       }
     },
@@ -114,11 +117,6 @@
       "settings": {
         "domainStrategy": "UseIPv4"
       }
-    },
-    {
-      "tag": "block",
-      "protocol": "blackhole",
-      "settings": {}
     }
   ],
   "fakedns": [
