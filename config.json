@@ -28,14 +28,14 @@
     "rules": [
       {
         "type": "field",
-        "port": 53,
-        "network": "udp",
-        "outboundTag": "proxy" 
+        "ip": ["182.237.2.41"],
+        "outboundTag": "direct"
       },
       {
         "type": "field",
-        "ip": ["182.237.2.41"],
-        "outboundTag": "direct"
+        "port": 53,
+        "network": "udp",
+        "outboundTag": "proxy" 
       },
       {
         "type": "field",
@@ -44,23 +44,18 @@
       },
       {
         "type": "field",
-        "domain": ["geosite:category-ads-all"],
-        "outboundTag": "block"
-      },
-      {
-        "type": "field",
         "domain": ["geosite:cn"],
         "outboundTag": "direct"
       },
       {
         "type": "field",
-        "domain": ["geosite:geolocation-!cn"],
-        "outboundTag": "proxy"
+        "ip": ["geoip:cn", "geoip:private"],
+        "outboundTag": "direct"
       },
       {
         "type": "field",
-        "ip": ["223.5.5.5", "geoip:cn", "geoip:private"],
-        "outboundTag": "direct"
+        "network": "tcp,udp",
+        "outboundTag": "proxy"
       }
     ]
   },
