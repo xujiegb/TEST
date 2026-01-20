@@ -5,6 +5,7 @@
     "loglevel": "warning"
   },
   "dns": {
+    "tag": "dns-in",
     "hosts": {
       "geosite:category-ads-all": "127.0.0.1"
     },
@@ -25,6 +26,12 @@
   "routing": {
     "domainStrategy": "IPIfNonMatch",
     "rules": [
+      {
+        "type": "field",
+        "port": 53,
+        "network": "udp",
+        "outboundTag": "proxy" 
+      },
       {
         "type": "field",
         "ip": ["182.237.2.41"],
@@ -64,20 +71,12 @@
       "protocol": "tun",
       "settings": {
         "name": "utun4",
-        "MTU": 1500
+        "MTU": 1400
       },
       "sniffing": {
         "enabled": true,
-        "destOverride": ["http", "tls", "quic", "fakedns"]
-      }
-    },
-    {
-      "tag": "socks-in",
-      "protocol": "socks",
-      "listen": "127.0.0.1",
-      "port": 10800,
-      "settings": {
-        "udp": true
+        "destOverride": ["http", "tls", "quic", "fakedns"],
+        "metadataOnly": false
       }
     }
   ],
