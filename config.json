@@ -4,7 +4,6 @@
     "error": "/Users/xujie/Downloads/xray_log/error.log",
     "loglevel": "warning"
   },
-
   "dns": {
     "servers": [
       {
@@ -23,34 +22,46 @@
       "localhost"
     ]
   },
-
   "routing": {
     "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
+        "type": "field",
+        "ip": ["182.237.2.41"],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
         "domain": ["geosite:category-ads-all"],
         "outboundTag": "block"
       },
       {
+        "type": "field",
         "domain": ["geosite:cn"],
         "outboundTag": "direct"
       },
       {
+        "type": "field",
         "domain": ["geosite:geolocation-!cn"],
         "outboundTag": "proxy"
       },
       {
-        "ip": ["223.5.5.5"],
-        "outboundTag": "direct"
-      },
-      {
-        "ip": ["geoip:cn", "geoip:private"],
+        "type": "field",
+        "ip": ["223.5.5.5", "geoip:cn", "geoip:private"],
         "outboundTag": "direct"
       }
     ]
   },
-
   "inbounds": [
+    {
+      "tag": "tun-in",
+      "port": 0,
+      "protocol": "tun",
+      "settings": {
+        "name": "utun4",
+        "MTU": 1500
+      }
+    },
     {
       "tag": "socks-in",
       "protocol": "socks",
@@ -61,22 +72,12 @@
       }
     },
     {
-      "port": 0,
-      "protocol": "tun",
-      "settings": {
-        "name": "xray0",
-        "MTU": 1500,
-        "userLevel": 0
-      }
-    },
-    {
       "tag": "http-in",
       "protocol": "http",
       "listen": "127.0.0.1",
       "port": 10801
     }
   ],
-
   "outbounds": [
     {
       "tag": "proxy",
@@ -104,16 +105,21 @@
           "serverName": "icloud.com",
           "allowInsecure": false,
           "fingerprint": "firefox"
+        },
+        "sockopt": {
+          "interface": "en0"
         }
       }
     },
     {
       "tag": "direct",
-      "protocol": "freedom"
+      "protocol": "freedom",
+      "settings": {}
     },
     {
       "tag": "block",
-      "protocol": "blackhole"
+      "protocol": "blackhole",
+      "settings": {}
     }
   ]
 }
